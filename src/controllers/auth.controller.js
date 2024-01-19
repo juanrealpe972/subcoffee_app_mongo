@@ -3,8 +3,8 @@ import bcrypt from 'bcryptjs'
 import { createAccessToken } from "../libs/jwt.js";
 
 export const register = async (req, res) => {
-    const { email, password, username } = req.body;
     try {
+        const { email, password, username } = req.body;
 
         const passwordHash = await bcrypt.hash(password, 10)
         const newUser = new User({
@@ -33,17 +33,25 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
 
-    const { email, password } = req.body;
 
     try {
 
+        const { email, password } = req.body;
         const userFound = await User.findOne({ email })
-        if (!userFound) return res.status(400).json({ message: "User not found" })
+        if (!userFound)
+            return res.status(400).json({
+                message: ["The email does not exist"]
+            })
 
         const isMatch = await bcrypt.compare(password, userFound.password)
-        if (!isMatch) return res.status(400).json({ message: "Incorrect password" })
+        if (!isMatch)
+            return res.status(400).json({
+                message: ["Incorrect password"]
+            })
 
-        const token = await createAccessToken({ id: userFound._id })
+        const token = await createAccessToken({
+            id: userFound._id
+        })
         // return json web token
         res.cookie('token', token);
         res.json({

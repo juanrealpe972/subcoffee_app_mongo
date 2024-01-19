@@ -14,4 +14,4 @@ router.put("/tasks/:id", authRequired, updateTask)
 
 router.delete("/tasks/:id", authRequired, deleteTask)
 
-export default router
+export default router;

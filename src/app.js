@@ -7,8 +7,8 @@ import tasksRoutes from './routes/tasks.routes.js'
 
 const app = express();
 
-app.use(morgan('dev')); // log requests to the console
 app.use(express.json())
+app.use(morgan('dev')); // log requests to the console
 app.use(cookieParser())
 
 app.use("/api", authRoutes);
