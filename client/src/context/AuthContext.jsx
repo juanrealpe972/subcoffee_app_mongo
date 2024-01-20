@@ -1,7 +1,6 @@
 import { createContext, useState, useContext, useEffect } from "react"
 import { registerRequest, loginRequest } from '../api/auth';
 
-
 export const AuthContext = createContext()
 
 export const useAuth = () => {
@@ -34,13 +33,15 @@ export const AuthProvider = ({ children }) => {
             const res = await loginRequest(user)
             console.log(res);
         } catch (error) {
-            console.log(error)
-            setErrors(error.response.data);
+            if (Array.isArray(error.response.data)) {
+                return setErrors(error.response.data);
+            }
+            setErrors ([error.response.data.message])
         }
     }
 
     useEffect(() => {
-        if(errors.length > 0){
+        if (errors.length > 0) {
             const timer = setTimeout(() => {
                 setErrors([])
             }, 5000)
