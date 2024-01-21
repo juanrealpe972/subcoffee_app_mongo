@@ -29,3 +29,10 @@ export const loginSchema = z.object({
     })
 })
 
+export const recuperarPassword = z.object({
+    email: z.string({
+        required_error: "Email is required"
+    }).email({
+        message: "Email is not valid"
+    })
+})
