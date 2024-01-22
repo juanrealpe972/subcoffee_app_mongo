@@ -5,7 +5,10 @@ export const createTaksSchema = z.object({
         required_error: "title is required"
     }),
     description: z.string({
-        required_error: "Description must be a string"
+        required_error: "Description is required"
+    }),
+    dateTime: z.string({
+        required_error: "Date is required"
     }),
     date: z.string().datetime().optional()
 })

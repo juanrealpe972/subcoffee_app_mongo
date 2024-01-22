@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import {
     createTasksRequest,
     getTasksRequest,
@@ -19,6 +19,7 @@ export const useTasks = () => {
 
 export function TaskProvider({ children }) {
 
+    const [errors, setErrors] = useState([])
     const [tasks, setTasks] = useState([])
 
     const getTasks = async () => {
@@ -35,7 +36,7 @@ export function TaskProvider({ children }) {
             const res = await createTasksRequest(task)
             console.log(res);
         } catch (error) {
-            console.log(error);
+            setErrors([error.response.data.message]);
         }
     }
 
@@ -61,9 +62,18 @@ export function TaskProvider({ children }) {
         try {
             await updateTasksRequest(id, task)
         } catch (error) {
-            console.log(error);
+            setErrors(error.response.data)
         }
     }
+
+    useEffect(()=>{
+        if (errors.length > 0) {
+            const timer = setTimeout(() => {
+                setErrors([]);
+            }, 5000)
+            return () => clearTimeout(timer)
+        }
+    }, [errors])
 
     return (
         <TaskContext.Provider
@@ -74,6 +84,7 @@ export function TaskProvider({ children }) {
                 deleteTask,
                 getTask,
                 updateTask,
+                errors,
             }}>
             {children}
         </TaskContext.Provider>

@@ -1,5 +1,8 @@
 import { useTasks } from "../context/TasksContent";
 import { Link } from "react-router-dom";
+import utc from 'dayjs/plugin/utc'
+import days from "dayjs";
+days.extend(utc)
 
 function TaskCard({ task }) {
 
@@ -10,6 +13,7 @@ function TaskCard({ task }) {
             <h1 className="text-slate-100 text-2xl font-bold">{task.title}</h1>
             <p className="text-slate-300">{task._id}</p>
             <p className="text-slate-300">{task.description}</p>
+            <p className="text-slate-300">{days(task.dateTime).utc().format('YYYY-MM-DD/HH:mm a')}</p>
             <footer className="flex justify-between">
                 <p>{new Date(task.date).toLocaleDateString()}</p>
                 <div className="flex gap-x-3 items-center">
