@@ -23,7 +23,7 @@ function RegisterPage() {
     })
 
     return (
-        <div className='flex h-screen justify-center items-center'>
+        <div className='flex h-[calc(100vh-20vh)] justify-center items-center'>
             <div className="bg-white p-8 rounded-lg w-full md:w-[500px] shadow-xl">
                 <div className="mb-6">
                     <h1 className="text-3xl uppercase font-bold text-center text-black">
